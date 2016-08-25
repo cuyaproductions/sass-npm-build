@@ -1,0 +1,316 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>Sass Color Functions</title>
+
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/black.css">
+
+		<!-- Theme used for syntax highlighting of code -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+		<style>
+			.reveal section img {
+				background: transparent;
+				border: none;
+				box-shadow: none;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<!-- title -->
+				<section data-markdown>
+					<script type="text/template">
+						# NPM as a Sass Build Tool
+					</script>
+				</section>
+
+				<!-- intro -->
+				<section>
+					<section data-markdown>
+						<script type="text/template">
+							# What is a build tool?
+							
+							<p class="fragment">*The tool that helps compile, transform, and package your code to be excecuted (in the browser).*</p>
+						</script>
+					</section>
+					<section data-markdown>
+						<script type="text/template">
+							```scss								
+								$color: blue;
+
+								body {
+									background: $color;
+								}
+							```								
+						</script>
+					</section>
+
+					<section data-markdown>
+						<script type="text/template">
+							```css								
+								body {
+									background: blue;
+								}
+							```								
+						</script>
+					</section>
+					<section data-markdown>
+						<script type="text/template">
+							![Grunt Logo](http://4.bp.blogspot.com/-KuIuf3DziKA/Utufbl83r1I/AAAAAAAAAh4/NeJhulC6NOU/s1600/grunt.png)
+						</script>
+					</section>
+					<section data-markdown>
+						<script type="text/template">
+							![Gulp Logo](https://worldvectorlogo.com/logos/gulp.svg)
+						</script>
+					</section>
+				</section>
+
+				<section>
+					<section data-markdown>
+						<script type="text/template">
+							# Example Gulp Build Files
+						</script>
+					</section>
+					<section data-markdown>
+						<script type="text/template">
+							package.json
+
+							```json
+							{
+								"devDependencies" {
+									"gulp": "3.9.1",
+									"gulp-sass": "2.3.2",
+									"gulp-autoprefixer": "6.3.7"
+								}
+							}
+							```
+
+							gulpfile.js
+
+							```js
+							const gulp = require('gulp'),
+							      sass = require('gulp-sass'),
+							      autoprefixer = require('gulp-autoprefixer');
+							
+							gulp.task('sass', function() {
+								gulp.src('src/style/main.scss')
+									.pipe(sass())
+									.pipe(autoprefixer())
+									.pipe(gulp.dest('dist/style/main.css'))
+							});
+							```
+						</script>
+					</section>
+
+					<section data-markdown>
+						<script type="text/template">
+							## So what's the problem?
+							
+							- Gulp and Gulp packages require a ton of dependencies:
+								```
+								$ npm ls --parseable | wc -l
+								742
+								```
+							- You have to maintain a `gulpfile.js`
+
+							- Less flexibility—You have to stay in the Gulp ecosystem
+						</script>
+					</section>
+				</section>
+
+				<section>
+					<section data-markdown>
+						<script type="text/template">
+							# Enter NPM Scripts
+						</script>
+					</section>
+					<section data-markdown>
+						<script type="text/template">
+							## How do they work?
+							
+							package.json
+
+							```json
+{
+	"scripts": {
+		"hello": "echo world"
+	}
+}
+							```
+
+							terminal
+
+							```bash
+							$ npm run hello
+							  > echo world
+							  world
+							```
+						</script>
+					</section>
+					<section data-markdown>
+						<script type="text/template">
+							## It's easy to work with npm packages
+
+							package.json
+
+							```json
+{
+	"devDependencies": {
+		"node-sass": "3.8.0"	
+	},
+	"scripts": {
+		"sass": "node-sass src/main.scss dest/main.css"
+	}
+}
+							```
+
+							terminal
+
+							```bash
+							$ npm run sass
+							  > node-sass src/main.scss dest/main.css
+							```
+						</script>
+					</section>
+
+					<section data-markdown>
+						<script type="text/template">
+							## Compose scripts together
+						
+							package.json
+
+							```json
+{
+	"devDependencies": {
+		"node-sass": "3.8.0"	
+	},
+	"scripts": {
+		"sass": "node-sass src/main.scss dest/main.css",
+		"magic": "echo \"(ﾉ◕ヮ◕)ﾉ*:・ﾟ✧\"",
+		"build": "npm run sass && npm run magic"
+	}
+}
+							```
+
+							terminal
+
+							```bash
+							$ npm run build
+							  > node-sass src/main.scss dest/main.css
+							  > echo "(ﾉ◕ヮ◕)ﾉ*:・ﾟ✧"
+								(ﾉ◕ヮ◕)ﾉ*:・ﾟ✧
+							```
+						</script>
+					</section>
+
+					<section data-markdown>
+						<script type="text/template">
+							## The NPM Build for Sass
+
+							package.json
+
+							```json
+{
+	"devDependencies": {
+		"node-sass": "3.8.0",
+		"postcss": "5.1.2",
+		"autoprefixer": "6.4.0"
+	},
+	"scripts": {
+		"sass": "node-sass src/main.scss | postcss --use autoprefixer > dest/main.css"
+	}
+}
+							```
+
+							terminal
+
+							```bash
+							$ npm run sass
+							```
+						</script>
+					</section>
+
+					<section data-markdown>
+						<script type="text/template">
+							## Why is this awesome?
+							
+							- Less dependencies:
+								```
+								$ npm ls --parseable | wc -l
+								278
+								```
+
+							- More flexibility. You can use any Command Line tool
+							
+							- Forces you to learn how the terminal works  `& && | >`
+
+							- You can use any standard terminal commands easily
+
+							- Less configuration to manage
+						</script>
+					</section>
+					
+					<section data-markdown>
+						<script type="text/template">
+							## It's not great for everything
+
+							- Enables you to use any Command Line tools  
+							*(Hard to manage)*
+
+							- Hard to know if npm killed all processes started
+							
+							- Can be slow
+
+							- Scripts can become unruly and can't be dynamic
+
+							- Hard to debug
+						</script>
+					</section>
+				</section>
+
+				<section data-markdown>
+					<script src="" type="text/template">
+						# Questions?
+
+						[@CuyaProductions](https://twitter.com/CuyaProductions)
+
+						[CuyaProductions on GitHub](https://github.com/cuyaproductions/)
+					</script>
+				</section>
+			</div>
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.js"></script>
+
+		<script>
+			// More info https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				history: true,
+
+				// More info https://github.com/hakimel/reveal.js#dependencies
+				dependencies: [
+					{ src: 'plugin/markdown/marked.js' },
+					{ src: 'plugin/markdown/markdown.js' },
+					{ src: 'plugin/notes/notes.js', async: true },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+				]
+			});
+		</script>
+	</body>
+</html>
