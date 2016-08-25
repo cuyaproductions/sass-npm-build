@@ -43,31 +43,31 @@
 					<section data-markdown>
 						<script type="text/template">
 							# What is a build tool?
-							
+
 							<p class="fragment">*The tool that helps compile, transform, and package your code to be excecuted (in the browser).*</p>
 						</script>
 					</section>
 					<section data-markdown>
 						<script type="text/template">
-							```scss								
-								$color: blue;
+							scss
 
-								body {
-									background: $color;
-								}
-							```								
+							```scss
+							$color: blue;
+
+							body {
+								background: $color;
+							}
+							```
+							<div class="fragment">
+								css
+
+									<pre><code class="hljs lang-css">body {
+	background: blue;
+}</code></pre>
+							</div>
 						</script>
 					</section>
 
-					<section data-markdown>
-						<script type="text/template">
-							```css								
-								body {
-									background: blue;
-								}
-							```								
-						</script>
-					</section>
 					<section data-markdown>
 						<script type="text/template">
 							![Grunt Logo](http://4.bp.blogspot.com/-KuIuf3DziKA/Utufbl83r1I/AAAAAAAAAh4/NeJhulC6NOU/s1600/grunt.png)
@@ -100,31 +100,32 @@
 							}
 							```
 
+							<div class="fragment">
 							gulpfile.js
 
-							```js
-							const gulp = require('gulp'),
-							      sass = require('gulp-sass'),
-							      autoprefixer = require('gulp-autoprefixer');
-							
-							gulp.task('sass', function() {
-								gulp.src('src/style/main.scss')
-									.pipe(sass())
-									.pipe(autoprefixer())
-									.pipe(gulp.dest('dist/style/main.css'))
-							});
-							```
+							<pre><code class="hljs lang-js">const gulp = require('gulp'),
+			sass = require('gulp-sass'),
+			autoprefixer = require('gulp-autoprefixer');
+
+gulp.task('sass', function() {
+	gulp.src('src/style/main.scss')
+		.pipe(sass())
+		.pipe(autoprefixer())
+		.pipe(gulp.dest('dist/style/main.css'))
+});</code></pre>
+							</div>
 						</script>
 					</section>
 
 					<section data-markdown>
 						<script type="text/template">
 							## So what's the problem?
-							
+
 							- Gulp and Gulp packages require a ton of dependencies:
 								```
-								$ npm ls --parseable | wc -l
-								742
+							$ npm ls --parseable | wc -l
+
+							 742
 								```
 							- You have to maintain a `gulpfile.js`
 
@@ -142,7 +143,7 @@
 					<section data-markdown>
 						<script type="text/template">
 							## How do they work?
-							
+
 							package.json
 
 							```json
@@ -158,6 +159,7 @@
 							```bash
 							$ npm run hello
 							  > echo world
+
 							  world
 							```
 						</script>
@@ -171,7 +173,7 @@
 							```json
 {
 	"devDependencies": {
-		"node-sass": "3.8.0"	
+		"node-sass": "3.8.0"
 	},
 	"scripts": {
 		"sass": "node-sass src/main.scss dest/main.css"
@@ -191,13 +193,13 @@
 					<section data-markdown>
 						<script type="text/template">
 							## Compose scripts together
-						
+
 							package.json
 
 							```json
 {
 	"devDependencies": {
-		"node-sass": "3.8.0"	
+		"node-sass": "3.8.0"
 	},
 	"scripts": {
 		"sass": "node-sass src/main.scss dest/main.css",
@@ -213,6 +215,7 @@
 							$ npm run build
 							  > node-sass src/main.scss dest/main.css
 							  > echo "(ﾉ◕ヮ◕)ﾉ*:・ﾟ✧"
+
 								(ﾉ◕ヮ◕)ﾉ*:・ﾟ✧
 							```
 						</script>
@@ -248,37 +251,40 @@
 					<section data-markdown>
 						<script type="text/template">
 							## Why is this awesome?
-							
+
 							- Less dependencies:
 								```
 								$ npm ls --parseable | wc -l
-								278
+
+								 278
 								```
 
 							- More flexibility. You can use any Command Line tool
-							
-							- Forces you to learn how the terminal works  `& && | >`
+
+							- Forces you to learn chaning operators  `; & && | >`
 
 							- You can use any standard terminal commands easily
 
 							- Less configuration to manage
 						</script>
 					</section>
-					
+
 					<section data-markdown>
 						<script type="text/template">
 							## It's not great for everything
 
-							- Enables you to use any Command Line tools  
+							- Enables you to use any Command Line tools
 							*(Hard to manage)*
 
 							- Hard to know if npm killed all processes started
-							
+
 							- Can be slow
 
 							- Scripts can become unruly and can't be dynamic
 
 							- Hard to debug
+
+							- Doesn't work well across OS
 						</script>
 					</section>
 				</section>
