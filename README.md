@@ -1,6 +1,6 @@
 # NPM as a Sass Build Tool
 
-Presentation on how to use NPM as a build tool for Sass
+[Presentation](https://cuyaproductions.github.io/sass-npm-build/) on how to use NPM as a build tool for Sass
 
 ## Helpful Resources:
 - [Introduction to Using NPM as a Build Tool (Intro)](https://medium.com/@dabit3/introduction-to-using-npm-as-a-build-tool-b41076f488b0#.qzu5narak)
